@@ -4,7 +4,6 @@
 #include <string.h>
 #include <math.h>
 #include <sys/time.h>
-#include <time.h>
 #include "init_matrix.h"
 
 #define MATRIX_SIZE (1024)
