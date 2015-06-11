@@ -1,0 +1,10 @@
+Freitextfrage Übung 6:
+
+Aufgabe 2c):
+Bei der aktuellen Implementierung des Jacobi-Verfahrens treten mehrere ineinander geschachtelte Schleifen auf. 
+Die Berechnungen innerhalb der Schleifen könnten (nach dem Divide-and-Conquer-Prinzip) zum Teil auf unterschiedliche Threads verteilt werden.
+Aufgeteilt werden können:
+-Das Durchgehen aller X zur Berechnung des aktuellen Xi, da nicht in "zukünftige" Werte geschrieben wird.
+-Die Berechnung des Abstands des alten vom neuen X, da auch hier nur auf bereits bestehende Werte zugegriffen wird.
+Beim Zusammenführen der Teilsummen ist allerdings darauf zu achten, dass immer nur ein Thread zur selben Zeit schreibt, sonst könnten die Summen einzelne Teilsummen verlieren.
+Für das Jacobi-Verfahren ergäben sich so innerhalb der äußersten Schleife 2 Blöcke, die sich in mehreren Threads bearbeiten ließen.

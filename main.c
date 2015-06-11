@@ -4,6 +4,7 @@
 #include <string.h>
 #include <math.h>
 #include <sys/time.h>
+#include <time.h>
 #include "init_matrix.h"
 
 #define MATRIX_SIZE (1024)
@@ -19,6 +20,13 @@ int main(int argc, char **argv)
 	unsigned int i, j;
 	unsigned int iterations = 0;
 	double error, xi, norm, max = 0.0;
+
+	//Neue Variablen
+	double sum = 0.0;
+	double epsilon = sqrt(0.00000001*MATRIX_SIZE);
+	double sumindistance = 0.0;
+	//Neue Variablen end
+
 	struct timeval start, end;
 
 	printf("\nInitialize system of linear equations...\n");
@@ -37,7 +45,61 @@ int main(int argc, char **argv)
 
 	gettimeofday(&start, NULL);
 
+
 	/* TODO: Hier muss die Aufgabe geloest werden */
+	
+
+	norm = 1.0;
+	
+
+	//Loesung suchen, bis Abstand aufeinanderfolgender Loesungen sehr klein ist
+	while (norm > epsilon)
+	{
+	
+	//Alle X einmal durchgehen
+	for (i = 0; i < MATRIX_SIZE; i++)
+	{
+	
+	        //Summe berechnen
+	        sum = 0.0;
+	        for (j = 0; j < MATRIX_SIZE; j ++)
+	        {
+	                if (j == i)
+	                {
+	                        j++;
+	                }
+	        
+	                sum = sum + A[i][j]*X_old[j];
+	        
+	        }//Summe end
+	        
+	        xi = X[i];
+	        X[i] = 1 / A[i][i] * (b[i] - sum);
+	        X_old[i] = xi;
+
+	}//Alle X end
+		
+		
+		
+	//Abstand berechnen
+		
+	//Summe im Abstand
+	sumindistance = 0.0;	
+	for (i = 0; i < MATRIX_SIZE; i ++)
+	{
+	      sumindistance = sumindistance + (X_old[i]-X[i])*(X_old[i]-X[i]);
+	        
+	}//Abstandsumme end	
+	
+	norm = sqrt(sumindistance);
+		
+	
+	iterations++;
+
+	}//while end
+	
+	
+	
 
 	gettimeofday(&end, NULL);
 
